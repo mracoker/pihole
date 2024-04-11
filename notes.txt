@@ -1,0 +1,22 @@
+sudo apt-get install ./docker-desktop-4.28.0-amd64.deb
+
+sudo apt install xrdp
+
+// list for port 53 use
+sudo lsof -i -P -n | grep LISTEN
+
+// disable port 53 from system resolve
+systemctl disable systemd-resolved.service
+systemctl stop systemd-resolved
+
+// broke internet after port 53 changes
+sudo nano /etc/resolv.conf
+
+// pihole perm check
+stat -c "%U:%G %a %n" /etc/pihole/*
+stat -c "%U:%G %a %n" /etc/pihole/* | column -t
+
+usermod -aG pihole www-data
+
+docker exec -it pihole bash
+docker exec pihole pihole -g
